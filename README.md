@@ -1,4 +1,4 @@
-# LLM Name Gateway
+# LLM Name Mapping Gateway
 
 A lightweight, flexible API gateway designed to route, proxy, and manage Large Language Model (LLM) requests seamlessly. 
 
