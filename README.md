@@ -68,14 +68,14 @@ Example mapping structure:
 
 Start the gateway server:
 
-```bash
-npm start
+```
+docker-compose up --build
 
 ```
 
 Once running, point your standard OpenAI SDK or client application to your gateway URL instead of the direct provider endpoint:
 
-```python
+```
 import openai
 
 client = openai.OpenAI(
@@ -109,6 +109,3 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 📝 License
 
 Distributed under the [MIT License](https://www.google.com/search?q=LICENSE). See `LICENSE` for more information.
-
-
-```
