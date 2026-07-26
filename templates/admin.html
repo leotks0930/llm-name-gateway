@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>AI Gateway 模型對應管理</h1>
+
+<section class="card">
+    <h2>新增對應規則</h2>
+    <form method="post" action="/admin/api/mappings">
+        <div class="form-row">
+            <label>名稱<input type="text" name="name"></label>
+            <label>來源模型<input type="text" name="source_model" placeholder="gpt-3.5-turbo 或 *"></label>
+        </div>
+        <div class="form-row">
+            <label>目標模型<input type="text" name="target_model" placeholder="gpt-4o-mini"></label>
+            <label>上游 Base URL<input type="text" name="target_base_url" placeholder="https://api.openai.com/v1" required></label>
+        </div>
+        <div class="form-row">
+            <label>API Key<input type="password" name="api_key" placeholder="sk-..."></label>
+            <label>優先級<input type="number" name="priority" value="0"></label>
+        </div>
+        <label>額外 Headers (JSON)<br>
+            <textarea name="add_headers" rows="3" placeholder='{"X-Provider": "OpenAI"}'></textarea>
+        </label>
+        <button type="submit">儲存</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>現有對應</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>名稱</th><th>來源模型</th><th>目標模型</th>
+                <th>上游 Base URL</th><th>API Key</th><th>Headers</th><th>優先級</th><th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in mappings %}
+            <tr>
+                <td>{{ m.id }}</td>
+                <td>{{ m.name or "-" }}</td>
+                <td>{{ m.source_model or "*" }}</td>
+                <td>{{ m.target_model or "-" }}</td>
+                <td>{{ m.target_base_url }}</td>
+                <td>{{ "****" + m.api_key[-4:] if m.api_key else "-" }}</td>
+                <td>{{ m.add_headers or "-" }}</td>
+                <td>{{ m.priority }}</td>
+                <td>
+                    <form method="post" action="/admin/api/mappings/{{ m.id }}/delete">
+                        <button type="submit" class="danger">刪除</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="9" style="text-align:center">尚無規則</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

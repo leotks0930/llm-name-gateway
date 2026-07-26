@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  ai-gateway:
+    build: .
+    container_name: name-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      # 預設上游（若沒設定對應規則會用這個）
+      - DEFAULT_TARGET_BASE_URL=https://api.openai.com/v1
+
+      # 後台帳密，不設就無驗證（建議生產環境務必設定）
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+
+      - DB_PATH=/data/ai-gateway.db
+    volumes:
+      # 資料庫落地到本機，重啟不會掉
+      - ./data:/data  

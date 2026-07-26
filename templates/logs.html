@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>轉發紀錄（最近 200 筆）</h1>
+<section class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>時間</th><th>Method</th><th>Path</th><th>Client IP</th>
+                <th>原始模型</th><th>轉出模型</th><th>上游 URL</th><th>狀態碼</th><th>錯誤</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for l in logs %}
+            <tr>
+                <td>{{ l.created_at }}</td>
+                <td>{{ l.method }}</td>
+                <td>{{ l.path }}</td>
+                <td>{{ l.client_ip or "-" }}</td>
+                <td>{{ l.model_in or "-" }}</td>
+                <td>{{ l.model_out or "-" }}</td>
+                <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis">{{ l.target_url }}</td>
+                <td>{{ l.status_code }}</td>
+                <td class="error">{{ l.error or "-" }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="9" style="text-align:center">尚無紀錄</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
